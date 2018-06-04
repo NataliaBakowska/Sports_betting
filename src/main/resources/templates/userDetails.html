@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"
+<html xmlns:th="http://www.thymeleaf.org"
+
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+                layout:decorator="layout">
+<head>
+  <meta charset="UTF-8">
+  <title>Account Details</title>
+</head>
+<body>
+<section layout:fragment="content">
+<ul th:each="user, iterStat: ${user}" th:class="${iterStat.odd}? 'odd'">
+        <h2>Your account</h2>
+        <li>Email: <td th:text="${user.username}"></td></li>
+        <li>Wallet: <ul th:each="wallet, iterStat: ${wallet}" th:class="${iterStat.odd}? 'odd'">
+                    <li>Status: <td th:text="${wallet.status}"></td></li>
+
+                    <a href="/recharge/10">Add 10</a><br>
+                     <a href="/recharge/20">Add 20</a><br>
+                      <a href="/recharge/50">Add 50</a><br>
+                       <a href="/recharge/100">Add 100</a><br>
+
+        <li>Actions: </li>
+
+</ul>
+</li>
+</ul>
+</section>
+</body>
+</html>
