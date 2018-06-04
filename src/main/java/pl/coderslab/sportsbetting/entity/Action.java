@@ -1,5 +1,7 @@
 package pl.coderslab.sportsbetting.entity;
 
+import org.joda.time.LocalDateTime;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,7 +14,11 @@ public class Action {
     @ManyToOne
     private Wallet wallet;
 
+    private LocalDateTime created;
+
     private String name;
+
+    private Double amount;
 
     public Long getId() {
         return id;
@@ -36,5 +42,21 @@ public class Action {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
     }
 }

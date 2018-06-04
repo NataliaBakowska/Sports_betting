@@ -6,4 +6,6 @@ import pl.coderslab.sportsbetting.entity.Game;
 
 @Repository
 public interface GameRepository extends JpaRepository<Game,Long> {
+
+    Game findGameById(Long id);
 }

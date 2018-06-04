@@ -12,18 +12,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import pl.coderslab.sportsbetting.entity.CurrentUser;
-import pl.coderslab.sportsbetting.entity.Role;
-import pl.coderslab.sportsbetting.entity.User;
-import pl.coderslab.sportsbetting.entity.Wallet;
+import pl.coderslab.sportsbetting.entity.*;
 import pl.coderslab.sportsbetting.repository.RoleRepository;
 import pl.coderslab.sportsbetting.repository.WalletRepository;
+import pl.coderslab.sportsbetting.service.ActionServiceImpl;
 import pl.coderslab.sportsbetting.service.UserServiceImpl;
 import pl.coderslab.sportsbetting.service.WalletServiceImpl;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -36,7 +35,7 @@ public class HomeController {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private RoleRepository roleRepository;
+    private ActionServiceImpl actionService;
 
     @Autowired
     private WalletServiceImpl walletService;
@@ -96,6 +95,8 @@ public class HomeController {
         model.addAttribute("user",entityUser);
         Wallet wallet = walletService.findByUserId(entityUser.getId());
         model.addAttribute("wallet", wallet);
+        List<Action> actions = actionService.findAllByWalletId(wallet.getId());
+        model.addAttribute("actions",actions);
         return "userDetails";
     }
 

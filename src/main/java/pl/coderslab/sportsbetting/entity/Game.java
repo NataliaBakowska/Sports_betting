@@ -1,10 +1,10 @@
 package pl.coderslab.sportsbetting.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 import org.joda.time.LocalDateTime;
+
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -18,9 +18,10 @@ public class Game {
 
     private String place;
 
+    @ManyToMany
     private List<Horse> horses;
 
-    private LocalDateTime startingAt;
+    private Date startingAt;
 
     public Long getId() {
         return id;
@@ -54,11 +55,11 @@ public class Game {
         this.horses = horses;
     }
 
-    public LocalDateTime getStartingAt() {
+    public Date getStartingAt() {
         return startingAt;
     }
 
-    public void setStartingAt(LocalDateTime startingAt) {
+    public void setStartingAt(Date startingAt) {
         this.startingAt = startingAt;
     }
 }

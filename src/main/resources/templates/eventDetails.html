@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"
+xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+                      layout:decorator="layout">
+<head>
+  <meta charset="UTF-8">
+  <title>Event detail</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <ul th:each="game, iterStat: ${game}" th:class="${iterStat.odd}? 'odd'">
+            <li>Country: <td th:text="${game.country}"></td></li>
+            <li>Place: <td th:text="${game.place}"></td></li>
+            <li>Starting at: <td th:text="${game.startingAt}"></td></li>
+            <ol>Horses: <ul th:each="horse, iterStat: ${horses}" th:class="${iterStat.odd}? 'odd'">
+                                    <ol>Name: <td th:text="${horse.name}"></td></ol>
+                                    <li>Year of birth: <td th:text="${horse.yearOfBirth}"></td></li>
+                                    <li>Breed: <td th:text="${horse.breed}"></td></li>
+                                    <li>Owner: <td th:text="${horse.owner}"></td></li>
+                                    <li>Breeder: <td th:text="${horse.breeder}"></td></li>
+                                    <li>Jockey: <td th:text="${horse.jockey}"></td></li>
+                                    <a href="/bet">Bet</a>
+                                    </ul>
+                        </ol>
+</ul>
+</section>
+</body>
+</html>
