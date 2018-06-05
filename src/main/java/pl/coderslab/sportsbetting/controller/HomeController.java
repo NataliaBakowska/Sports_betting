@@ -1,26 +1,23 @@
 package pl.coderslab.sportsbetting.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.coderslab.sportsbetting.entity.*;
-import pl.coderslab.sportsbetting.repository.RoleRepository;
-import pl.coderslab.sportsbetting.repository.WalletRepository;
 import pl.coderslab.sportsbetting.service.ActionServiceImpl;
+import pl.coderslab.sportsbetting.service.CartServiceImpl;
 import pl.coderslab.sportsbetting.service.UserServiceImpl;
 import pl.coderslab.sportsbetting.service.WalletServiceImpl;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,6 +37,9 @@ public class HomeController {
     @Autowired
     private WalletServiceImpl walletService;
 
+    @Autowired
+    private CartServiceImpl cartService;
+
 
     @GetMapping("/")
     public String index(){
@@ -51,9 +51,16 @@ public class HomeController {
         return "login";
     }
 
+
     @PostMapping("/logout")
-    public String logout(HttpSession session){
+    public String logout(HttpSession session, @AuthenticationPrincipal CurrentUser customUser){
+        User user = customUser.getUser();
+        Cart cart = user.getCart();
+        List<Action> actions = new ArrayList<>();
+        cart.setActions(actions);
+        cartService.saveCart(cart);
         session.invalidate();
+
         return "logout";
     }
 
@@ -75,14 +82,15 @@ public class HomeController {
         }
         user.setEnabled(1);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        Role role = roleRepository.findByName("USER");
-//        Set<Role> h = new HashSet<Role>();
-//        h.add(role);
-//        user.setRoles(h);
         Wallet wallet = new Wallet();
         wallet.setUser(user);
         wallet.setStatus(0.0);
         walletService.createWallet(wallet);
+        Cart cart = new Cart();
+        cart.setUser(user);
+//        List<Action> actions = new ArrayList<>();
+//        cart.setActions(actions);
+        cartService.saveCart(cart);
         userService.registerNewUser(user);
         return"redirect:/home";
     }
@@ -90,8 +98,6 @@ public class HomeController {
     @GetMapping("/userDetails")
     public String getUserDetails(@AuthenticationPrincipal CurrentUser customUser, Model model){
         User entityUser = customUser.getUser();
-//        Long id = entityUser.getId() ;
-//        User user1 = userService.findUserById(id);
         model.addAttribute("user",entityUser);
         Wallet wallet = walletService.findByUserId(entityUser.getId());
         model.addAttribute("wallet", wallet);
@@ -99,5 +105,7 @@ public class HomeController {
         model.addAttribute("actions",actions);
         return "userDetails";
     }
+
+
 
 }

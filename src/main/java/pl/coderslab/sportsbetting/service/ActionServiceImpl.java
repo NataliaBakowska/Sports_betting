@@ -26,6 +26,6 @@ public class ActionServiceImpl implements ActionService {
 
     @Override
     public List<Action> findAllByWalletId(Long id) {
-        return actionRepository.findAllByWallet_Id(id);
+        return actionRepository.findAllByWallet_IdOrderByCreatedDesc(id);
     }
 }

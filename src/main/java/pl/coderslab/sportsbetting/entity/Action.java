@@ -11,7 +11,7 @@ public class Action {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Wallet wallet;
 
     private LocalDateTime created;
@@ -19,6 +19,11 @@ public class Action {
     private String name;
 
     private Double amount;
+
+    //hourse
+    //race
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Cart cart;
 
     public Long getId() {
         return id;
@@ -58,5 +63,13 @@ public class Action {
 
     public void setCreated(LocalDateTime created) {
         this.created = created;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 }

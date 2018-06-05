@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Wallet {
+public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,15 +16,10 @@ public class Wallet {
     @OneToOne(cascade = CascadeType.ALL)
     private User user;
 
-    private Double status;
 
-    @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL/*,fetch = FetchType.EAGER*/)
+    @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL/*,fetch = FetchType.EAGER*/)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Action> actions;
-
-    public Wallet() {
-
-    }
 
     public Long getId() {
         return id;
@@ -40,14 +35,6 @@ public class Wallet {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Double getStatus() {
-        return status;
-    }
-
-    public void setStatus(Double status) {
-        this.status = status;
     }
 
     public List<Action> getActions() {

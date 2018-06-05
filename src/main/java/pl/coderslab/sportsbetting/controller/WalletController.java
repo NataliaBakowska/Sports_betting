@@ -62,30 +62,9 @@ public class WalletController {
         return"redirect:/userDetails";
     }
 
-    @GetMapping("/bet")
-    String placeBet(@AuthenticationPrincipal CurrentUser customUser){
-        Wallet wallet = walletService.findByUserId(customUser.getUser().getId());
-        if (wallet.getStatus()>=10) {
-            createActionBet(wallet,10.00);
-            wallet.setStatus(wallet.getStatus() - 10.00);
-            walletService.updateWallet(wallet);
-            return "userDetails";
-        }else {
-            return "redirect:/upcomingEvents";
-        }
 
-    }
 
-    private void createActionBet(Wallet wallet,Double amount) {
-        Action action = new Action();
-        action.setName("Bet");
-        action.setAmount(10.00);
-        action.setWallet(wallet);
-        action.setCreated(LocalDateTime.now());
-        actionService.saveAction(action);
-    }
-
-    private void createActionRecharged(Wallet wallet, Double amount) {
+    public void createActionRecharged(Wallet wallet, Double amount) {
         Action action = new Action();
         action.setName("Account recharged");
         action.setAmount(amount);

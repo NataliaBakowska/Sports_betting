@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface ActionRepository extends JpaRepository<Action, Long> {
 
-    List<Action> findAllByWallet_Id(Long id);
+    List<Action> findAllByWallet_IdOrderByCreatedDesc(Long id);
+
+
 }
