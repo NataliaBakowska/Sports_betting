@@ -9,7 +9,19 @@
 </head>
 <body>
 <section layout:fragment="content">
+    <ul th:each="game, iterStat: ${games}" th:class="${iterStat.odd}? 'odd'">
+                <li>Country: <td th:text="${game.country}"></td></li>
+                <li>Place: <td th:text="${game.place}"></td></li>
+                <li>Starting at: <td th:text="${game.startingAt}"></td></li>
+                <a th:href="@{/currentDetails/{id}(id=${game.id})}">See details</a>
 
+                    <ul th:each="result, iterStat: ${game.results}" th:class="${iterStat.odd}? 'odd'">
+                                <li>Position: <td th:text="${result.position}"></td>
+                                    <li>Horse name: <td th:text="${result.horse.getName()}"></td></li>
+                                </li>
+
+    </ul>
+    </ul>
 </section>
 </body>
 </html>

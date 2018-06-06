@@ -28,4 +28,11 @@ public class ActionServiceImpl implements ActionService {
     public List<Action> findAllByWalletId(Long id) {
         return actionRepository.findAllByWallet_IdOrderByCreatedDesc(id);
     }
+
+    @Override
+    public void deleteById(Long id) {
+        actionRepository.deleteById(id);
+    }
+
+
 }

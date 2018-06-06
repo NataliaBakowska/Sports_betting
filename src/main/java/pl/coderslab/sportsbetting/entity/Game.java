@@ -18,8 +18,10 @@ public class Game {
 
     private String place;
 
-    @ManyToMany
-    private List<Horse> horses;
+//    @OneToMany(mappedBy = "game")
+//    private List<Horse> horses;
+    @OneToMany(mappedBy = "game")
+    private List<Result> results;
 
     private Date startingAt;
 
@@ -47,12 +49,21 @@ public class Game {
         this.place = place;
     }
 
-    public List<Horse> getHorses() {
-        return horses;
+//    public List<Horse> getHorses() {
+//        return horses;
+//    }
+//
+//    public void setHorses(List<Horse> horses) {
+//        this.horses = horses;
+//    }
+
+
+    public List<Result> getResults() {
+        return results;
     }
 
-    public void setHorses(List<Horse> horses) {
-        this.horses = horses;
+    public void setResults(List<Result> results) {
+        this.results = results;
     }
 
     public Date getStartingAt() {

@@ -7,5 +7,6 @@ import pl.coderslab.sportsbetting.entity.Horse;
 @Repository
 public interface HorseRepository extends JpaRepository<Horse, Long> {
 
+    Horse findHorseById(Long id);
 
 }

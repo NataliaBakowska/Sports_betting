@@ -9,5 +9,4 @@ public interface ActionRepository extends JpaRepository<Action, Long> {
 
     List<Action> findAllByWallet_IdOrderByCreatedDesc(Long id);
 
-
 }

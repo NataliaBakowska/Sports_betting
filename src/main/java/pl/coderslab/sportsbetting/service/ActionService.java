@@ -9,4 +9,6 @@ public interface ActionService {
     void saveAction(Action action);
 
     List<Action> findAllByWalletId(Long id);
+
+    void deleteById(Long id);
 }

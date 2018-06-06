@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-    xmlns:th="http://www.thymeleaf.org"
+    xxmlns:th="http://www.thymeleaf.org"
 
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
@@ -11,23 +11,23 @@
 </head>
 <body>
 <section layout:fragment="content">
-<ul th:each="user, iterStat: ${user}" th:class="${iterStat.odd}? 'odd'">
-        <h2>Your account</h2>
-        <li>Email: <td th:text="${user.username}"></td></li></ul>
+<p th:text="${message}"></p>
+<h2>Your account</h2>
+Email: <td th:text="${user.username}"></td>
 <ul th:each="wallet, iterStat: ${wallet}" th:class="${iterStat.odd}? 'odd'">
         <li>Status: <td th:text="${wallet.status}"></td></li>
-                    <a href="/recharge/10">Add 10</a>
-                     <a href="/recharge/20">Add 20</a>
-                      <a href="/recharge/50">Add 50</a>
-                       <a href="/recharge/100">Add 100</a>
+                    <a class="btn btn-primary btn-block" href="/recharge/10">Add 10</a>
+                     <a class="btn btn-primary btn-block" href="/recharge/20">Add 20</a>
+                      <a class="btn btn-primary btn-block" href="/recharge/50">Add 50</a>
+                       <a class="btn btn-primary btn-block" href="/recharge/100">Add 100</a>
                        </ul>
-                       <h2>Your history</h2>
+<h2>Your history</h2>
 <ul th:each="action, iterStat: ${actions}" th:class="${iterStat.odd}? 'odd'">
+
                                  <li>Created: <td th:text="${action.created}"></td></li>
                                  <li>Title: <td th:text="${action.name}"></td></li>
                                  <li>Amount: <td th:text="${action.amount}"></td></li>
 </ul>
-
 </section>
 </body>
 </html>

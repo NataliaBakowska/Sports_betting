@@ -1,9 +1,7 @@
 package pl.coderslab.sportsbetting.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Horse {
@@ -23,6 +21,15 @@ public class Horse {
     private String owner;
 
     private String jockey;
+
+//    @ManyToOne
+//    private Game game;
+
+    @OneToMany(mappedBy = "horse",cascade = CascadeType.ALL)
+    private List<Action> actions;
+
+    @OneToMany(mappedBy = "horse", cascade = CascadeType.ALL)
+    private List<Result> results;
 
     public Long getId() {
         return id;
@@ -78,5 +85,29 @@ public class Horse {
 
     public void setJockey(String jockey) {
         this.jockey = jockey;
+    }
+
+//    public Game getGame() {
+//        return game;
+//    }
+//
+//    public void setGame(Game game) {
+//        this.game = game;
+//    }
+
+    public List<Action> getActions() {
+        return actions;
+    }
+
+    public void setActions(List<Action> actions) {
+        this.actions = actions;
+    }
+
+    public List<Result> getResults() {
+        return results;
+    }
+
+    public void setResults(List<Result> results) {
+        this.results = results;
     }
 }

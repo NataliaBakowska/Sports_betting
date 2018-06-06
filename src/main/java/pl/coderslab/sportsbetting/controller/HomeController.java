@@ -10,17 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.coderslab.sportsbetting.entity.*;
-import pl.coderslab.sportsbetting.service.ActionServiceImpl;
-import pl.coderslab.sportsbetting.service.CartServiceImpl;
-import pl.coderslab.sportsbetting.service.UserServiceImpl;
-import pl.coderslab.sportsbetting.service.WalletServiceImpl;
+import pl.coderslab.sportsbetting.service.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 public class HomeController {
@@ -39,6 +35,12 @@ public class HomeController {
 
     @Autowired
     private CartServiceImpl cartService;
+
+    @Autowired
+    private GameServiceImpl gameService;
+
+    @Autowired
+    private ResultServiceImpl resultService;
 
 
     @GetMapping("/")
@@ -60,12 +62,32 @@ public class HomeController {
         cart.setActions(actions);
         cartService.saveCart(cart);
         session.invalidate();
-
         return "logout";
     }
 
     @GetMapping("/home")
-    public String home(){
+    public String home(Model model){
+        List<Game> games = gameService.findAllTodayGames();
+        Random rand = new Random();
+        for(Game g : games){
+            List<Result> results = g.getResults();
+//            List<Horse> horses = g.getHorses();
+            Integer[] list = new Integer[results.size()];
+            for(int i =0 ; i<list.length;i++){
+                list[i]=i+1;
+            }
+            Collections.shuffle(Arrays.asList(list));
+                for(int i = 0; i<list.length;i++){
+                    Horse horse = results.get(i).getHorse();
+                    Result result = resultService.findByGameIdAndHorseId(g.getId(),horse.getId());
+                    result.setPosition(list[i]);
+                    resultService.saveResult(result);
+                }
+            Collections.sort(results,new ResultComparator());
+            model.addAttribute("results",results);
+        }
+
+        model.addAttribute("games",games);
         return "home";
     }
 
@@ -88,8 +110,6 @@ public class HomeController {
         walletService.createWallet(wallet);
         Cart cart = new Cart();
         cart.setUser(user);
-//        List<Action> actions = new ArrayList<>();
-//        cart.setActions(actions);
         cartService.saveCart(cart);
         userService.registerNewUser(user);
         return"redirect:/home";

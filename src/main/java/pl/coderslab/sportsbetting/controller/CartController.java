@@ -4,14 +4,9 @@ import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.coderslab.sportsbetting.entity.*;
-import pl.coderslab.sportsbetting.service.ActionServiceImpl;
-import pl.coderslab.sportsbetting.service.CartServiceImpl;
-import pl.coderslab.sportsbetting.service.UserServiceImpl;
-import pl.coderslab.sportsbetting.service.WalletService;
+import pl.coderslab.sportsbetting.service.*;
 import org.springframework.ui.Model;
 
 import java.util.ArrayList;
@@ -32,16 +27,22 @@ public class CartController {
     @Autowired
     CartServiceImpl cartService;
 
-    @GetMapping("/bet")
-    String placeBet(Model model){
+    @Autowired
+    HorseServiceImpl horseService;
+
+    @GetMapping("/bet/{id}")
+    String placeBet(Model model, @PathVariable Long id){
         Action action = new Action();
         model.addAttribute("action",action);
+        model.addAttribute("id",id);
         return "bet";
     }
 
-    @PostMapping("/bet")
-    String placeBet(@AuthenticationPrincipal CurrentUser customUser, @ModelAttribute Action action){
+    @PostMapping("/bet/{id}")
+    String placeBet(@AuthenticationPrincipal CurrentUser customUser, @ModelAttribute Action action,
+                    @PathVariable Long id){
         Cart cart = cartService.findCartByUserId(customUser.getUser().getId());
+        Horse horse = horseService.findHorseById(id);
         List<Action> actions;
         if (cart.getActions() == null){
             actions = new ArrayList<>();
@@ -51,6 +52,7 @@ public class CartController {
         action.setName("Bet");
         action.setCart(cart);
         actions.add(action);
+        action.setHorse(horse);
         cart.setActions(actions);
         cartService.saveCart(cart);
         return "redirect:/cart";
@@ -68,7 +70,7 @@ public class CartController {
     }
 
     @GetMapping("/play")
-    String play(@AuthenticationPrincipal CurrentUser customUser){
+    String play(@AuthenticationPrincipal CurrentUser customUser,Model model){
         User user = customUser.getUser();
         Cart cart = user.getCart();
         List<Action> actionsFromCart = cart.getActions();
@@ -82,13 +84,24 @@ public class CartController {
                 sum += action.getAmount();
                 actionsFromWallet.add(action);
         }
-        wallet.setStatus(wallet.getStatus() - sum);
-        wallet.setActions(actionsFromWallet);
-        walletService.updateWallet(wallet);
-        actionsFromCart = new ArrayList<>();
-        cart.setActions(actionsFromCart);
-        cartService.saveCart(cart);
+        if(sum<=wallet.getStatus()) {
+            wallet.setStatus(wallet.getStatus() - sum);
+            wallet.setActions(actionsFromWallet);
+            walletService.updateWallet(wallet);
+            actionsFromCart = new ArrayList<>();
+            cart.setActions(actionsFromCart);
+            cartService.saveCart(cart);
+
+        }else{
+            return "recharge";
+        }
         return "redirect:/userDetails";
+    }
+
+    @GetMapping("/deleteItem/{id}")
+    String deleteItem(@PathVariable Long id){
+        actionService.deleteById(id);
+        return "redirect:/cart";
     }
 
     public void createActionBet(Wallet wallet,Double amount) {

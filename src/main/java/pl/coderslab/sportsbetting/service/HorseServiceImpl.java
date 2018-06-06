@@ -15,4 +15,9 @@ public class HorseServiceImpl implements HorseService {
     public void saveHorse(Horse horse) {
         horseRepository.save(horse);
     }
+
+    @Override
+    public Horse findHorseById(Long id) {
+        return horseRepository.findHorseById(id);
+    }
 }

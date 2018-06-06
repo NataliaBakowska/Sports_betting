@@ -17,6 +17,8 @@
    <li th:each="action, iterStat: ${actions}" th:class="${iterStat.odd}? 'odd'">
         <p>Title: <td th:text="${action.name}"></td></p>
         <p>Amount: <td th:text="${action.amount}"></td></p>
+        <p>Horse:  <td th:text="${action.horse.getName()}"></td></p>
+        <a th:href="@{/deleteItem/{id}(id=${action.id})}">Delete item</a>
    </li>
 </ul>
 <a class="btn btn-primary btn-block" href="/play">Play</a>

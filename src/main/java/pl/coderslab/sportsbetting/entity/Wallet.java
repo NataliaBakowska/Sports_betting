@@ -18,7 +18,7 @@ public class Wallet {
 
     private Double status;
 
-    @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL/*,fetch = FetchType.EAGER*/)
+    @OneToMany(mappedBy = "wallet")
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Action> actions;
 

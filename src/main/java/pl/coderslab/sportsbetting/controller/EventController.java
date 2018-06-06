@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import pl.coderslab.sportsbetting.entity.Game;
 import pl.coderslab.sportsbetting.entity.Horse;
+import pl.coderslab.sportsbetting.entity.Result;
 import pl.coderslab.sportsbetting.service.FakerService;
 import pl.coderslab.sportsbetting.service.GameServiceImpl;
 import pl.coderslab.sportsbetting.service.HorseServiceImpl;
@@ -31,16 +32,8 @@ public class EventController {
 
     @GetMapping("/upcomingEvents")
     String showUpcomingEvents(Model model){
-        List<Game> games = new ArrayList<>();
-        for(int i = 1; i<rand.nextInt(10)+5;i++){
-            Game game = fakerService.generateGame();
-            List<Horse> horses = game.getHorses();
-            for(int j = 0; j<horses.size();j++){
-                horseService.saveHorse(horses.get(j));
-            }
-            gameService.saveGame(game);
-            games.add(game);
-        }
+        List<Game> games;
+        games = gameService.findAllFutureGames();
         model.addAttribute("game", games);
         return "events";
     }
@@ -49,8 +42,25 @@ public class EventController {
     String showEventDetails(@PathVariable Long id, Model model){
         Game game = gameService.findEventById(id);
         model.addAttribute("game",game);
-        List<Horse> horses = game.getHorses();
+        List<Result> results = game.getResults();
+        List<Horse> horses = new ArrayList<>();
+        for (Result r : results){
+            horses.add(r.getHorse());
+        }
         model.addAttribute("horses",horses);
         return "eventDetails";
+    }
+
+    @GetMapping("/currentDetails/{id}")
+    String showCurrentEventDetails(@PathVariable Long id, Model model){
+        Game game = gameService.findEventById(id);
+        model.addAttribute("game",game);
+        List<Result> results = game.getResults();
+        List<Horse> horses = new ArrayList<>();
+        for (Result r : results){
+            horses.add(r.getHorse());
+        }
+        model.addAttribute("horses",horses);
+        return "eventDetailsCurrent";
     }
 }

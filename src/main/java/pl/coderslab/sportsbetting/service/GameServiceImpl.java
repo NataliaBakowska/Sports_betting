@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import pl.coderslab.sportsbetting.entity.Game;
 import pl.coderslab.sportsbetting.repository.GameRepository;
 
+import java.util.List;
+
 @Service
 public class GameServiceImpl implements GameService {
     @Autowired
@@ -17,6 +19,16 @@ public class GameServiceImpl implements GameService {
     @Override
     public void saveGame(Game game) {
         gameRepository.save(game);
+    }
+
+    @Override
+    public List<Game> findAllFutureGames() {
+        return gameRepository.findGamesByStartingAtAfterToday();
+    }
+
+    @Override
+    public List<Game> findAllTodayGames() {
+        return gameRepository.findTodayGames();
     }
 
 
