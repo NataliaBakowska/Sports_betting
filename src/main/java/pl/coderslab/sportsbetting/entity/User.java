@@ -4,8 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.Set;
 
+/**
+ * Class Uses is representing registered users
+ */
 @Entity(name = "users")
 public class User {
     @Id
@@ -13,6 +17,7 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
+    @Email
     private String username;
     private String password;
     private int enabled;

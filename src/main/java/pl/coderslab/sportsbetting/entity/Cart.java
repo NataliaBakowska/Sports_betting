@@ -5,6 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * Class Cart is representing shopping cart
+ * holds bets which are not paid for yet
+ */
 @Entity
 public class Cart {
 
@@ -18,7 +22,6 @@ public class Cart {
 
 
     @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnore
     private List<Action> actions;
 
     public Long getId() {

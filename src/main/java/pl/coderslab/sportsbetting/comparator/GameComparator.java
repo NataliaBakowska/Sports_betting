@@ -1,4 +1,6 @@
-package pl.coderslab.sportsbetting.entity;
+package pl.coderslab.sportsbetting.comparator;
+import pl.coderslab.sportsbetting.entity.Game;
+
 import java.util.Comparator;
 
 public class GameComparator implements Comparator<Game> {

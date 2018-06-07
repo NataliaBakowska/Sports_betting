@@ -7,6 +7,10 @@ import org.hibernate.annotations.LazyCollectionOption;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * Class Wallet is representing informations about account status
+ * can access all financial operations of assigned user
+ */
 @Entity
 public class Wallet {
 

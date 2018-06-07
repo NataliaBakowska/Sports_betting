@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
+/**
+ * Class Result is representing informations about the results of each horse in each race
+ */
 @Entity
 public class Result {
 

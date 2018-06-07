@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 //import pl.coderslab.sportsbetting.dto.GameDto;
 import pl.coderslab.sportsbetting.entity.*;
-import pl.coderslab.sportsbetting.service.ActionServiceImpl;
-import pl.coderslab.sportsbetting.service.GameService;
-import pl.coderslab.sportsbetting.service.HorseServiceImpl;
-import pl.coderslab.sportsbetting.service.WalletServiceImpl;
+import pl.coderslab.sportsbetting.service.*;
 //import pl.coderslab.sportsbetting.service.RestApiService;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +35,14 @@ public class RestApiController {
 
     @Autowired
     WalletServiceImpl walletService;
+
+    @Autowired
+    CartServiceImpl cartService;
+
+    @GetMapping
+    public String homeApi(){
+        return "api";
+    }
 
     @GetMapping(path= "/live-games")
     @ResponseBody
@@ -73,7 +78,7 @@ public class RestApiController {
     @GetMapping(path="/cart")
     @ResponseBody
     public Cart findCart(@AuthenticationPrincipal CurrentUser currentUser){
-        Cart cart = currentUser.getUser().getCart();
+        Cart cart = cartService.findCartByUserId(currentUser.getUser().getId());
         return cart;
     }
 

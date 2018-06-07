@@ -1,12 +1,11 @@
 package pl.coderslab.sportsbetting.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import pl.coderslab.sportsbetting.entity.Game;
 import pl.coderslab.sportsbetting.entity.Horse;
 import pl.coderslab.sportsbetting.entity.Result;
-import pl.coderslab.sportsbetting.entity.ResultComparator;
+import pl.coderslab.sportsbetting.comparator.ResultComparator;
 import pl.coderslab.sportsbetting.repository.GameRepository;
 
 import java.util.Arrays;

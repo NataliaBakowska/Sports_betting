@@ -1,9 +1,14 @@
 package pl.coderslab.sportsbetting.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
 
+/**
+ * Class Action represents evry action on user's account
+ * such as betting, recharging, winning or loosing
+ */
 @Entity
 public class Action {
 
@@ -24,6 +29,7 @@ public class Action {
     private Horse horse;
 
     @ManyToOne
+    @JsonIgnore
     private Cart cart;
 
     private String status;

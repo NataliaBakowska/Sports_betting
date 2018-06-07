@@ -7,6 +7,9 @@ import org.hibernate.annotations.LazyCollectionOption;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * Class Horse is representing horses taking part in the races
+ */
 @Entity
 public class Horse {
 

@@ -65,7 +65,6 @@ public class CartController {
         User user = customUser.getUser();
         String name = user.getUsername();
         Cart cart = cartService.findCartByUserId(user.getId());
-//        Cart cart = customUser.getUser().getCart();
         List<Action> actions = cart.getActions();
         model.addAttribute("name",name);
         model.addAttribute("actions",actions);
@@ -73,14 +72,13 @@ public class CartController {
     }
 
     @GetMapping("/play")
-    String play(@AuthenticationPrincipal CurrentUser customUser,Model model){
+    String play(@AuthenticationPrincipal CurrentUser customUser){
         User user = customUser.getUser();
         Cart cart = cartService.findCartByUserId(user.getId());
         List<Action> actionsFromCart = cart.getActions();
         Wallet wallet = walletService.findByUserId(user.getId());
         List<Action> actionsFromWallet = wallet.getActions();
         Double sum = 0.0;
-//        if(actionsFromCart.size())
         for (Action action : actionsFromCart) {
                 action.setCreated(LocalDateTime.now());
                 action.setWallet(wallet);

@@ -2,6 +2,9 @@ package pl.coderslab.sportsbetting.entity;
 
 import javax.persistence.*;
 
+/**
+ * Class Role is representing the roles of each user
+ */
 @Entity
 @Table(name = "authorities")
 public class Role {

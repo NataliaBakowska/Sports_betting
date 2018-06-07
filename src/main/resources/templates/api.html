@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en"
+xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+                layout:decorator="layout">
+<head>
+  <meta charset="UTF-8">
+  <title>Bet</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <a href="/api/live-games">Current events</a>
+    <a href="/api/upcoming-events">Upcoming events</a>
+    <a href="/api/actions-user">Your actions</a>
+    <a href="/api/cart">Your cart</a>
+
+</section>
+</body>
+</html>

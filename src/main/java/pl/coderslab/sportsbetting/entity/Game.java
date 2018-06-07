@@ -10,6 +10,9 @@ import org.joda.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Class Game is representing the races
+ */
 @Entity
 public class Game {
 
@@ -21,11 +24,8 @@ public class Game {
 
     private String place;
 
-//    @OneToMany(mappedBy = "game")
-//    private List<Horse> horses;
     @OneToMany(mappedBy = "game")
     @LazyCollection(LazyCollectionOption.FALSE)
-//    @JsonIgnore
     private List<Result> results;
 
     private Date startingAt;
