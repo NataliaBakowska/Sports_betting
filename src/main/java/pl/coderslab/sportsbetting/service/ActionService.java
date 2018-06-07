@@ -11,4 +11,9 @@ public interface ActionService {
     List<Action> findAllByWalletId(Long id);
 
     void deleteById(Long id);
+
+    List<Action> findActionsByUserId(String name, Long id);
+
+    List<Action> findAllWhereBet(String name);
+
 }

@@ -9,12 +9,11 @@
 </head>
 <body>
 <section layout:fragment="content">
-    <ul th:each="game, iterStat: ${games}" th:class="${iterStat.odd}? 'odd'">
+    <ul th:each="game, iterStat: ${game}" th:class="${iterStat.odd}? 'odd'">
                 <li>Country: <td th:text="${game.country}"></td></li>
                 <li>Place: <td th:text="${game.place}"></td></li>
                 <li>Starting at: <td th:text="${game.startingAt}"></td></li>
                 <a th:href="@{/currentDetails/{id}(id=${game.id})}">See details</a>
-                <a th:href="@{/end/{id}(id=${game.id})}">End game</a>
 
                     <ul th:each="result, iterStat: ${game.results}" th:class="${iterStat.odd}? 'odd'">
                                 <li>Position: <td th:text="${result.position}"></td>
@@ -23,7 +22,6 @@
 
     </ul>
     </ul>
-    <a th:href="@{/generateUpcoming}">Game about to start</a>
 </section>
 </body>
 </html>

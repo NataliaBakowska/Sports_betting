@@ -12,4 +12,6 @@ public interface UserService {
 
      User findUserById(Long id);
 
+     public void createUser(User user);
+
 }

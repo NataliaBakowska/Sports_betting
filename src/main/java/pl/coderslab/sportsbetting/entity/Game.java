@@ -2,6 +2,9 @@ package pl.coderslab.sportsbetting.entity;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.joda.time.LocalDateTime;
 
 import java.util.Date;
@@ -21,9 +24,13 @@ public class Game {
 //    @OneToMany(mappedBy = "game")
 //    private List<Horse> horses;
     @OneToMany(mappedBy = "game")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
     private List<Result> results;
 
     private Date startingAt;
+
+    private Date finishingAt;
 
     public Long getId() {
         return id;
@@ -49,15 +56,6 @@ public class Game {
         this.place = place;
     }
 
-//    public List<Horse> getHorses() {
-//        return horses;
-//    }
-//
-//    public void setHorses(List<Horse> horses) {
-//        this.horses = horses;
-//    }
-
-
     public List<Result> getResults() {
         return results;
     }
@@ -72,5 +70,13 @@ public class Game {
 
     public void setStartingAt(Date startingAt) {
         this.startingAt = startingAt;
+    }
+
+    public Date getFinishingAt() {
+        return finishingAt;
+    }
+
+    public void setFinishingAt(Date finishingAt) {
+        this.finishingAt = finishingAt;
     }
 }

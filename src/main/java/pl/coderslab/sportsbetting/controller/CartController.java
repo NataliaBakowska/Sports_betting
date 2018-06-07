@@ -9,6 +9,7 @@ import pl.coderslab.sportsbetting.entity.*;
 import pl.coderslab.sportsbetting.service.*;
 import org.springframework.ui.Model;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,10 +60,12 @@ public class CartController {
     }
 
     @GetMapping("/cart")
-    String seeCart(@AuthenticationPrincipal CurrentUser customUser,Model model){
+    String seeCart(@AuthenticationPrincipal CurrentUser customUser, Model model){
+
         User user = customUser.getUser();
         String name = user.getUsername();
-        Cart cart = customUser.getUser().getCart();
+        Cart cart = cartService.findCartByUserId(user.getId());
+//        Cart cart = customUser.getUser().getCart();
         List<Action> actions = cart.getActions();
         model.addAttribute("name",name);
         model.addAttribute("actions",actions);
@@ -72,17 +75,21 @@ public class CartController {
     @GetMapping("/play")
     String play(@AuthenticationPrincipal CurrentUser customUser,Model model){
         User user = customUser.getUser();
-        Cart cart = user.getCart();
+        Cart cart = cartService.findCartByUserId(user.getId());
         List<Action> actionsFromCart = cart.getActions();
-        Wallet wallet = user.getWallet();
+        Wallet wallet = walletService.findByUserId(user.getId());
         List<Action> actionsFromWallet = wallet.getActions();
         Double sum = 0.0;
+//        if(actionsFromCart.size())
         for (Action action : actionsFromCart) {
                 action.setCreated(LocalDateTime.now());
                 action.setWallet(wallet);
                 action.setCart(null);
                 sum += action.getAmount();
                 actionsFromWallet.add(action);
+        }
+        if (actionsFromCart.size()>3){
+            sum = sum*0.85;
         }
         if(sum<=wallet.getStatus()) {
             wallet.setStatus(wallet.getStatus() - sum);
@@ -104,12 +111,4 @@ public class CartController {
         return "redirect:/cart";
     }
 
-    public void createActionBet(Wallet wallet,Double amount) {
-        Action action = new Action();
-        action.setName("Bet");
-        action.setAmount(10.00);
-        action.setWallet(wallet);
-        action.setCreated(LocalDateTime.now());
-        actionService.saveAction(action);
-    }
 }

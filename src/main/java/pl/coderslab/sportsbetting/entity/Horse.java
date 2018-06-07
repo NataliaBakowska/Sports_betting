@@ -1,5 +1,9 @@
 package pl.coderslab.sportsbetting.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -26,9 +30,12 @@ public class Horse {
 //    private Game game;
 
     @OneToMany(mappedBy = "horse",cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Action> actions;
 
     @OneToMany(mappedBy = "horse", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
     private List<Result> results;
 
     public Long getId() {

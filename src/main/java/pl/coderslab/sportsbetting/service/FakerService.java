@@ -4,15 +4,14 @@ import com.github.javafaker.Faker;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import pl.coderslab.sportsbetting.entity.Game;
 import pl.coderslab.sportsbetting.entity.Horse;
 import org.joda.time.LocalDateTime;
 import pl.coderslab.sportsbetting.entity.Result;
+import pl.coderslab.sportsbetting.entity.User;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -27,8 +26,6 @@ public class FakerService {
 
     Random random = new Random();
 
-    String[] breeds = {"XX","OO"};
-
     LocalDateTime ld = new LocalDateTime();
 
     private ArrayList<JSONObject> todayGames = new ArrayList<>();
@@ -41,6 +38,11 @@ public class FakerService {
 
     @Autowired
     ResultServiceImpl resultService;
+
+    @Autowired
+    UserServiceImpl userService;
+
+
 
 //    @Scheduled(fixedRate = 5000)
 //    public void regenerate() throws JSONException {
@@ -59,10 +61,8 @@ public class FakerService {
     public Game generateGame() throws JSONException {
         Faker faker = new Faker();
         Game game = new Game();
-//        List <Result> results = new ArrayList<>();
         game.setCountry(faker.address().country());
         game.setPlace(faker.address().cityName());
-        gameService.saveGame(game);
         gameService.saveGame(game);
         List<Horse> horses = generateHorses();
         List<Result> results = new ArrayList<>();
@@ -71,15 +71,17 @@ public class FakerService {
             Result result = new Result();
             result.setHorse(horse);
             results.add(result);
-            //horse.setGame(game);
             horseService.saveHorse(horse);
         }
         for(Result r : results){
             r.setGame(game);
             resultService.saveResult(r);
         }
+        LocalDateTime startingAt= LocalDateTime.fromDateFields(faker.date().between(
+                LocalDateTime.now().plusDays(1).toDate(),LocalDateTime.now().plusDays(7).toDate()));
         game.setStartingAt(
                 (faker.date().between(LocalDateTime.now().plusDays(1).toDate(),ld.plusDays(7).toDate())));
+        game.setFinishingAt(LocalDateTime.fromDateFields( game.getStartingAt()).plusMinutes(2).toDate());
         gameService.saveGame(game);
         return game;
     }
@@ -97,40 +99,68 @@ public class FakerService {
             Result result = new Result();
             result.setHorse(horse);
             results.add(result);
-            //horse.setGame(game);
             horseService.saveHorse(horse);
         }
         for(Result r : results){
             r.setGame(game);
             resultService.saveResult(r);
         }
-        game.setStartingAt(LocalDateTime.now().toDate());
+        LocalDateTime startingAt = LocalDateTime.now();
+        game.setStartingAt(startingAt.toDate());
+        game.setFinishingAt(startingAt.plusMinutes(2).toDate());
+        gameService.saveGame(game);
+        return game;
+    }
+
+    public Game generateGameToBegin() throws JSONException {
+        Faker faker = new Faker();
+        Game game = new Game();
+        game.setCountry(faker.address().country());
+        game.setPlace(faker.address().cityName());
+        gameService.saveGame(game);
+        List<Horse> horses = generateHorses();
+        List<Result> results = new ArrayList<>();
+        for(int i = 0; i<horses.size();i++) {
+            Horse horse = horses.get(i);
+            Result result = new Result();
+            result.setHorse(horse);
+            results.add(result);
+            horseService.saveHorse(horse);
+        }
+        for(Result r : results){
+            r.setGame(game);
+            resultService.saveResult(r);
+        }
+        LocalDateTime startingAt = LocalDateTime.now().plusMinutes(2);
+        game.setStartingAt(startingAt.toDate());
+        game.setFinishingAt(startingAt.plusMinutes(2).toDate());
         gameService.saveGame(game);
         return game;
     }
 
     public List<Horse> generateHorses() throws JSONException {
         Faker faker = new Faker();
-        String breed = breeds[random.nextInt(1)+0];
         int yearOfBirth = random.nextInt(4)+2012;
         List<Horse> horses = new ArrayList<>();
         for (int i =0; i<random.nextInt(3)+5;i++){
             Horse horse = new Horse();
-//            List<Result> results = new ArrayList<>();
-//            for(Result r : results){
-//                r.setGame(game);
-//            }
             horse.setName(faker.pokemon().name());
-            horse.setBreed(breed);
+            horse.setBreed("XX");
             horse.setBreeder(faker.name().fullName());
             horse.setOwner(faker.name().fullName());
             horse.setJockey(faker.name().fullName());
             horse.setYearOfBirth(yearOfBirth);
-//            horse.setResults(results);
             horses.add(horse);
 
         }
         return horses;
+    }
+
+    public void generateUser(){
+        User user = new User();
+        user.setPassword("test");
+        user.setUsername("test@test.pl");
+        userService.createUser(user);
     }
 
 }

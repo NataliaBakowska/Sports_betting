@@ -14,4 +14,6 @@ public interface GameService {
 
     List<Game> findAllTodayGames();
 
+    List<Game> findAllPastGames();
+
 }

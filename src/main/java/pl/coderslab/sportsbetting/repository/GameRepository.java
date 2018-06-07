@@ -12,10 +12,14 @@ public interface GameRepository extends JpaRepository<Game,Long> {
 
     Game findGameById(Long id);
 
-    @Query("Select g from Game g where g.startingAt not like current_date")
+    @Query(value = "select * from game where TIMESTAMP(starting_at) > now()", nativeQuery = true)
     List<Game> findGamesByStartingAtAfterToday();
 
-    @Query(value = "select * from game where DATE(starting_at) = curdate()", nativeQuery = true)
+    @Query(value = "select * from game where TIMESTAMP(starting_at) < now() and TIMESTAMP (finishing_at) > now()"
+            , nativeQuery = true)
     List<Game> findTodayGames();
+
+    @Query(value = "select * from game where TIMESTAMP(finishing_at) < now()", nativeQuery = true)
+    List<Game> findPastGames();
 
 }

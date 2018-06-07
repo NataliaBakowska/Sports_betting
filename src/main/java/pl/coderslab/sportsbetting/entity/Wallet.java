@@ -1,5 +1,6 @@
 package pl.coderslab.sportsbetting.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -20,6 +21,7 @@ public class Wallet {
 
     @OneToMany(mappedBy = "wallet")
     @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
     private List<Action> actions;
 
     public Wallet() {

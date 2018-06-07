@@ -27,6 +27,7 @@ Email: <td th:text="${user.username}"></td>
                                  <li>Created: <td th:text="${action.created}"></td></li>
                                  <li>Title: <td th:text="${action.name}"></td></li>
                                  <li>Amount: <td th:text="${action.amount}"></td></li>
+                                 <li>Horse name: <td th:text="${action?.horse?.name}"></td></li>
 </ul>
 </section>
 </body>

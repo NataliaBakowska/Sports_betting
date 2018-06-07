@@ -36,8 +36,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+//                .antMatchers("/v2/api-docs", "/swagger-resources/configuration/ui", "/swagger-resources", "/swagger-resources/configuration/security", "/swagger-ui.html", "/webjars/**").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/home").authenticated()
+                .antMatchers("/cart").authenticated()
+                .antMatchers("/userDetails").authenticated()
+                .antMatchers("/eventDetails/**").authenticated()
                 .and().formLogin().loginPage("/login")
                 .defaultSuccessUrl("/home")
                 .and()

@@ -25,9 +25,6 @@ public class HomeController {
     UserServiceImpl userService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private ActionServiceImpl actionService;
 
     @Autowired
@@ -57,7 +54,7 @@ public class HomeController {
     @PostMapping("/logout")
     public String logout(HttpSession session, @AuthenticationPrincipal CurrentUser customUser){
         User user = customUser.getUser();
-        Cart cart = user.getCart();
+        Cart cart = cartService.findCartByUserId(user.getId());
         List<Action> actions = new ArrayList<>();
         cart.setActions(actions);
         cartService.saveCart(cart);
@@ -67,26 +64,7 @@ public class HomeController {
 
     @GetMapping("/home")
     public String home(Model model){
-        List<Game> games = gameService.findAllTodayGames();
-        Random rand = new Random();
-        for(Game g : games){
-            List<Result> results = g.getResults();
-//            List<Horse> horses = g.getHorses();
-            Integer[] list = new Integer[results.size()];
-            for(int i =0 ; i<list.length;i++){
-                list[i]=i+1;
-            }
-            Collections.shuffle(Arrays.asList(list));
-                for(int i = 0; i<list.length;i++){
-                    Horse horse = results.get(i).getHorse();
-                    Result result = resultService.findByGameIdAndHorseId(g.getId(),horse.getId());
-                    result.setPosition(list[i]);
-                    resultService.saveResult(result);
-                }
-            Collections.sort(results,new ResultComparator());
-            model.addAttribute("results",results);
-        }
-
+        List<Game> games = gameService.generateRandomLifeResults();
         model.addAttribute("games",games);
         return "home";
     }
@@ -102,18 +80,11 @@ public class HomeController {
         if(result.hasErrors()){
             return "register";
         }
-        user.setEnabled(1);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        Wallet wallet = new Wallet();
-        wallet.setUser(user);
-        wallet.setStatus(0.0);
-        walletService.createWallet(wallet);
-        Cart cart = new Cart();
-        cart.setUser(user);
-        cartService.saveCart(cart);
-        userService.registerNewUser(user);
+        userService.createUser(user);
         return"redirect:/home";
     }
+
+
 
     @GetMapping("/userDetails")
     public String getUserDetails(@AuthenticationPrincipal CurrentUser customUser, Model model){

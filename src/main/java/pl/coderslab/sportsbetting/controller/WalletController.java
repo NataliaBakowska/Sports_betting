@@ -29,7 +29,7 @@ public class WalletController {
         Wallet wallet = walletService.findByUserId(customUser.getUser().getId());
         wallet.setStatus(wallet.getStatus() + 10);
         walletService.updateWallet(wallet);
-        createActionRecharged(wallet,10.00);
+        actionService.createActionRecharged(wallet,10.00);
         return"redirect:/userDetails";
     }
 
@@ -40,7 +40,7 @@ public class WalletController {
         Wallet wallet = walletService.findByUserId(customUser.getUser().getId());
         wallet.setStatus(wallet.getStatus() + 20);
         walletService.updateWallet(wallet);
-        createActionRecharged(wallet,20.00);
+        actionService.createActionRecharged(wallet,20.00);
         return"redirect:/userDetails";
     }
 
@@ -49,7 +49,7 @@ public class WalletController {
         Wallet wallet = walletService.findByUserId(customUser.getUser().getId());
         wallet.setStatus(wallet.getStatus() + 50);
         walletService.updateWallet(wallet);
-        createActionRecharged(wallet,50.00);
+        actionService.createActionRecharged(wallet,50.00);
         return"redirect:/userDetails";
     }
 
@@ -58,18 +58,10 @@ public class WalletController {
         Wallet wallet = walletService.findByUserId(customUser.getUser().getId());
         wallet.setStatus(wallet.getStatus() + 100);
         walletService.updateWallet(wallet);
-        createActionRecharged(wallet,100.00);
+        actionService.createActionRecharged(wallet,100.00);
         return"redirect:/userDetails";
     }
 
 
 
-    public void createActionRecharged(Wallet wallet, Double amount) {
-        Action action = new Action();
-        action.setName("Account recharged");
-        action.setAmount(amount);
-        action.setWallet(wallet);
-        action.setCreated(LocalDateTime.now());
-        actionService.saveAction(action);
-    }
 }

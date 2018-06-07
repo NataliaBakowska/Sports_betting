@@ -8,13 +8,8 @@ import pl.coderslab.sportsbetting.repository.WalletRepository;
 @Service
 public class WalletServiceImpl implements WalletService{
 
-    final
-    WalletRepository walletRepository;
-
     @Autowired
-    public WalletServiceImpl(WalletRepository walletRepository) {
-        this.walletRepository = walletRepository;
-    }
+    WalletRepository walletRepository;
 
     @Override
     public void createWallet(Wallet wallet) {

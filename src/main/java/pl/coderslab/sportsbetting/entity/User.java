@@ -1,5 +1,6 @@
 package pl.coderslab.sportsbetting.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.persistence.*;
@@ -18,12 +19,13 @@ public class User {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JsonIgnore
     private Set<Role> roles;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Wallet wallet;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private Cart cart;
 
     public Cart getCart() {

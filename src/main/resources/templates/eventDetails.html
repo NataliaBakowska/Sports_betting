@@ -16,6 +16,7 @@
             <li>Country: <td th:text="${game.country}"></td></li>
             <li>Place: <td th:text="${game.place}"></td></li>
             <li>Starting at: <td th:text="${game.startingAt}"></td></li>
+            <li>Finishing at: <td th:text="${game.finishingAt}"></td></li>
             <ol>Horses:
                 <ul th:each="horse, iterStat: ${horses}" th:class="${iterStat.odd}? 'odd'">
                         <ol>Name: <td th:text="${horse.name}"></td></ol>

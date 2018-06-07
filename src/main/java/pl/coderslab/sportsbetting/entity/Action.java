@@ -26,6 +26,8 @@ public class Action {
     @ManyToOne
     private Cart cart;
 
+    private String status;
+
     public Long getId() {
         return id;
     }
@@ -82,5 +84,11 @@ public class Action {
         this.horse = horse;
     }
 
+    public String getStatus() {
+        return status;
+    }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
