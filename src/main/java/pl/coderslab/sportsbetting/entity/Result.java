@@ -1,5 +1,7 @@
 package pl.coderslab.sportsbetting.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,9 +12,11 @@ public class Result {
     private Long id;
 
     @ManyToOne
+    @JsonIgnore
     private Horse horse;
 
     @ManyToOne
+    @JsonIgnore
     private Game game;
 
     private int position;

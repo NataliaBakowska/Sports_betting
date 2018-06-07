@@ -1,11 +1,8 @@
 package pl.coderslab.sportsbetting.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Entity
@@ -16,6 +13,7 @@ public class Cart {
     private Long id;
 
     @OneToOne(cascade = CascadeType.MERGE)
+    @JsonIgnore
     private User user;
 
 

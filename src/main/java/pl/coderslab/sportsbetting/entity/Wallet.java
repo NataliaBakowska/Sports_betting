@@ -15,6 +15,7 @@ public class Wallet {
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
     private User user;
 
     private Double status;

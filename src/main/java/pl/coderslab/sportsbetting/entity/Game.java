@@ -25,7 +25,7 @@ public class Game {
 //    private List<Horse> horses;
     @OneToMany(mappedBy = "game")
     @LazyCollection(LazyCollectionOption.FALSE)
-    @JsonIgnore
+//    @JsonIgnore
     private List<Result> results;
 
     private Date startingAt;
