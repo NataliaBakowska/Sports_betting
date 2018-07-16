@@ -10,6 +10,8 @@ import pl.coderslab.sportsbetting.service.FakerService;
 @EnableScheduling
 public class SportsBettingApplication {
 
+    //test
+
     public static void main(String[] args) {
         SpringApplication.run(SportsBettingApplication.class, args);
     }
