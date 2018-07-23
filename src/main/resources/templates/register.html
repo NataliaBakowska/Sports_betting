@@ -28,6 +28,10 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
             <input th:field="*{username}" class="form-control" id="exampleInputEmail1" type="email" aria-describedby="emailHelp"  placeholder="Enter email">
           </div>
           <div class="form-group">
+            <label for="exampleInputEmail1">Date of birth</label>
+            <input th:field="*{dateOfBirth}" class="form-control" id="exampleInputDate1" type="date" placeholder="Enter date">
+          </div>
+          <div class="form-group">
             <div class="form-row">
               <div class="col-md-6">
                 <label for="exampleInputPassword1">Password</label>

@@ -1,7 +1,6 @@
 package pl.coderslab.sportsbetting.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -21,6 +20,7 @@ public class User {
     private String username;
     private String password;
     private int enabled;
+    private String dateOfBirth;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -87,5 +87,13 @@ public class User {
 
     public void setWallet(Wallet wallet) {
         this.wallet = wallet;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 }

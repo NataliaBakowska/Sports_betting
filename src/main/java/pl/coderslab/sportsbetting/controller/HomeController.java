@@ -1,5 +1,6 @@
 package pl.coderslab.sportsbetting.controller;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -77,7 +78,8 @@ public class HomeController {
 
     @PostMapping("/register")
     public String register(@Valid @ModelAttribute("user") User user, BindingResult result){
-        if(result.hasErrors()){
+        DateTime dateOfUser = DateTime.parse(user.getDateOfBirth());
+        if(result.hasErrors() || dateOfUser.isAfter(DateTime.now().minusYears(18))) {
             return "register";
         }
         userService.createUser(user);

@@ -160,6 +160,7 @@ public class FakerService {
         User user = new User();
         user.setPassword("test");
         user.setUsername("test@test.pl");
+        user.setDateOfBirth("1995-08-15");
         userService.createUser(user);
     }
 
