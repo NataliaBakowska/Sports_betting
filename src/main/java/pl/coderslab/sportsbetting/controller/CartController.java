@@ -50,7 +50,7 @@ public class CartController {
         } else {
             actions = cart.getActions();
         }
-        action.setName("Bet");
+        action.setActionType(ActionType.BET);
         action.setCart(cart);
         actions.add(action);
         action.setHorse(horse);

@@ -21,7 +21,7 @@ public class Action {
 
     private LocalDateTime created;
 
-    private String name;
+    private ActionType actionType;
 
     private Double amount;
 
@@ -50,12 +50,12 @@ public class Action {
         this.wallet = wallet;
     }
 
-    public String getName() {
-        return name;
+    public ActionType getActionType() {
+        return actionType;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setActionType(ActionType actionType) {
+        this.actionType = actionType;
     }
 
     public Double getAmount() {

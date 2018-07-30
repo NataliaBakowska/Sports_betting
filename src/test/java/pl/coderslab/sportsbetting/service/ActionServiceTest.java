@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import pl.coderslab.sportsbetting.entity.Action;
+import pl.coderslab.sportsbetting.entity.ActionType;
 import pl.coderslab.sportsbetting.entity.Wallet;
 import pl.coderslab.sportsbetting.repository.ActionRepository;
 import java.util.ArrayList;
@@ -47,11 +48,11 @@ public class ActionServiceTest {
         //given
         List<Action> actions = new ArrayList<>();
         Action action = new Action();
-        action.setName("Bet");
+        action.setActionType(ActionType.BET);
         actions.add(action);
-        when(repository.findAllByName("Bet")).thenReturn(actions);
+        when(repository.findAllByActionType(ActionType.BET)).thenReturn(actions);
         //when
-        List<Action> actions1 = service.findAllWhereBet("Bet");
+        List<Action> actions1 = service.findAllWhereBet(ActionType.BET);
         //then
         assertEquals(actions1.get(0),action);
 

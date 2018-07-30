@@ -1,6 +1,7 @@
 package pl.coderslab.sportsbetting.service;
 
 import pl.coderslab.sportsbetting.entity.Action;
+import pl.coderslab.sportsbetting.entity.ActionType;
 
 import java.util.List;
 
@@ -12,8 +13,8 @@ public interface ActionService {
 
     void deleteById(Long id);
 
-    List<Action> findActionsByUserId(String name, Long id);
+    List<Action> findActionsByUserId(ActionType actionType, Long id);
 
-    List<Action> findAllWhereBet(String name);
+    List<Action> findAllWhereBet(ActionType actionType);
 
 }

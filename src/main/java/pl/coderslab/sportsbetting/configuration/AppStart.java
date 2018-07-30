@@ -43,7 +43,7 @@ public class AppStart implements ApplicationRunner {
 
     @Scheduled(cron="* */2 * * * *")
     public void scanBets() {
-        List<Action> actions = actionService.findAllWhereBet("Bet");
+        List<Action> actions = actionService.findAllWhereBet(ActionType.BET);
         for (Action a : actions) {
             Wallet wallet = a.getWallet();
             Horse horse = a.getHorse();
@@ -56,7 +56,7 @@ public class AppStart implements ApplicationRunner {
                         wallet.setStatus(wallet.getStatus() + a.getAmount() * 100);
                         a.setStatus("finished");
                         actionService.saveAction(a);
-                        action.setName("Success!");
+                        action.setActionType(ActionType.WON);
                         action.setAmount(a.getAmount() * 100);
                         action.setWallet(wallet);
                         action.setHorse(horse);
@@ -66,7 +66,7 @@ public class AppStart implements ApplicationRunner {
                     } else if (r.getPosition() != 1 && a.getStatus() == null){
                         a.setStatus("finished");
                         actionService.saveAction(a);
-                        action.setName("You've lost!");
+                        action.setActionType(ActionType.LOST);
                         action.setHorse(horse);
                         action.setCreated(LocalDateTime.now());
                         action.setWallet(wallet);

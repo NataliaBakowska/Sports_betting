@@ -26,7 +26,7 @@ Date of birth: <td th:text="${user.dateOfBirth}"></td>
 <ul th:each="action, iterStat: ${actions}" th:class="${iterStat.odd}? 'odd'">
 
                                  <li>Created: <td th:text="${action.created}"></td></li>
-                                 <li>Title: <td th:text="${action.name}"></td></li>
+                                 <li>Title: <td th:text="${action.actionType}"></td></li>
                                  <li>Amount: <td th:text="${action.amount}"></td></li>
                                  <li> <td th:text="${action?.horse?.name}"></td></li>
 
