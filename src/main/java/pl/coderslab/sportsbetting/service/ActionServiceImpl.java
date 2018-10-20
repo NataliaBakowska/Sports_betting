@@ -2,6 +2,7 @@ package pl.coderslab.sportsbetting.service;
 
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import pl.coderslab.sportsbetting.entity.Action;
@@ -16,6 +17,9 @@ public class ActionServiceImpl implements ActionService {
 
     final
     ActionRepository actionRepository;
+
+    @Autowired
+    public JdbcTemplate jdbcTemplate;
 
     @Autowired
     public ActionServiceImpl(ActionRepository actionRepository) {
@@ -34,7 +38,7 @@ public class ActionServiceImpl implements ActionService {
 
     @Override
     public void deleteById(Long id) {
-        actionRepository.deleteById(id);
+        jdbcTemplate.update("DELETE FROM Action WHERE id=" + id);
     }
 
     @Override

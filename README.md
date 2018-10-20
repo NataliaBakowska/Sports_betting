@@ -11,8 +11,8 @@ Provided functionalities:
 - see the history of user activities
 
 Technologies in use:
--Java
--Spring/Springboot
--HTML & Thymeleaf
--MySQL
--Maven
+- Java
+- Spring/Springboot
+- HTML & Thymeleaf
+- MySQL
+- Maven

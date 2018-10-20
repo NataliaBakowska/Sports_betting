@@ -105,6 +105,7 @@ public class CartController {
 
     @GetMapping("/deleteItem/{id}")
     String deleteItem(@PathVariable Long id){
+        System.out.println(id);
         actionService.deleteById(id);
         return "redirect:/cart";
     }
