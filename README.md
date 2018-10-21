@@ -16,3 +16,4 @@ Technologies in use:
 - HTML & Thymeleaf
 - MySQL
 - Maven
+- free Bootstrap template SB Admin
