@@ -2,6 +2,7 @@ package pl.coderslab.sportsbetting.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.coderslab.sportsbetting.entity.User;
 import pl.coderslab.sportsbetting.entity.Wallet;
 import pl.coderslab.sportsbetting.repository.WalletRepository;
 
@@ -12,8 +13,8 @@ public class WalletServiceImpl implements WalletService{
     WalletRepository walletRepository;
 
     @Override
-    public void createWallet(Wallet wallet) {
-        walletRepository.save(wallet);
+    public void createWallet(User user) {
+        walletRepository.save(new Wallet(user));
     }
 
     @Override

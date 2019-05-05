@@ -1,39 +1,31 @@
 package pl.coderslab.sportsbetting.service;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import pl.coderslab.sportsbetting.entity.Cart;
 import pl.coderslab.sportsbetting.entity.Role;
 import pl.coderslab.sportsbetting.entity.User;
-import pl.coderslab.sportsbetting.entity.Wallet;
 import pl.coderslab.sportsbetting.repository.RoleRepository;
 import pl.coderslab.sportsbetting.repository.UserRepository;
 
-import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.HashSet;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    final
-    WalletServiceImpl walletService;
+    private WalletService walletService;
 
-    final
-    CartServiceImpl cartService;
+    private CartService cartService;
 
-    final
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
+    private RoleRepository roleRepository;
 
-    final
-    RoleRepository roleRepository;
-
-    final
-    BCryptPasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     public UserServiceImpl(WalletServiceImpl walletService, CartServiceImpl cartService, UserRepository userRepository, RoleRepository roleRepository, @Lazy BCryptPasswordEncoder passwordEncoder) {
@@ -69,16 +61,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser(User user) {
+    public void createUser(User user) throws IllegalArgumentException {
+        DateTime dateOfUser = DateTime.parse(user.getDateOfBirth());
+        if(dateOfUser.isAfter(DateTime.now().minusYears(18))) {
+            throw new IllegalArgumentException();
+        }
         user.setEnabled(1);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        Wallet wallet = new Wallet();
-        wallet.setUser(user);
-        wallet.setStatus(0.0);
-        walletService.createWallet(wallet);
-        Cart cart = new Cart();
-        cart.setUser(user);
-        cartService.saveCart(cart);
+
+        walletService.createWallet(user);
+        cartService.createCart(user);
         registerNewUser(user);
     }
 }

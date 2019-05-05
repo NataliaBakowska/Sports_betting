@@ -1,10 +1,11 @@
 package pl.coderslab.sportsbetting.service;
 
+import pl.coderslab.sportsbetting.entity.User;
 import pl.coderslab.sportsbetting.entity.Wallet;
 
 public interface WalletService {
 
-    void createWallet(Wallet wallet);
+    void createWallet(User user);
 
     Wallet findByUserId(Long id);
 

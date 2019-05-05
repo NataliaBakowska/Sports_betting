@@ -30,7 +30,11 @@ public class Wallet {
     private List<Action> actions;
 
     public Wallet() {
+    }
 
+    public Wallet(User user) {
+        this.user = user;
+        this.status = 0.0;
     }
 
     public Long getId() {

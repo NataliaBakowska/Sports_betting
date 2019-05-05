@@ -26,22 +26,22 @@ public class ActionServiceTest {
         service = new ActionServiceImpl(repository);
     }
 
-    @Test
-    public void when_searching_by_wallet_then_return_list() {
-        // given
-        Wallet wallet = new Wallet();
-        wallet.setId(1L);
-        List<Action> actions = new ArrayList<>();
-        Action action = new Action();
-        action.setWallet(wallet);
-        action.setId(1L);
-        actions.add(action);
-        when(repository.findAllByWallet_IdOrderByCreatedDesc(wallet.getId())).thenReturn(actions);
-        // when
-        List<Action> actions1 = service.findAllByWalletId(1L);
-        // then
-        assertEquals(actions1.get(0).getWallet(),wallet);
-    }
+//    @Test
+//    public void when_searching_by_wallet_then_return_list() {
+//        // given
+//        Wallet wallet = new Wallet();
+//        wallet.setId(1L);
+//        List<Action> actions = new ArrayList<>();
+//        Action action = new Action();
+//        action.setWallet(wallet);
+//        action.setId(1L);
+//        actions.add(action);
+//        when(repository.findAllByWallet_IdOrderByCreatedDesc(wallet.getId())).thenReturn(actions);
+//        // when
+//        List<Action> actions1 = service.findAllByWalletId(1L);
+//        // then
+//        assertEquals(actions1.get(0).getWallet(),wallet);
+//    }
 
     @Test
     public void when_name_bet_then_return_list(){

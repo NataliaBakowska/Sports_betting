@@ -20,9 +20,15 @@ public class Cart {
     @JsonIgnore
     private User user;
 
-
     @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Action> actions;
+
+    public Cart() {
+    }
+
+    public Cart(User user) {
+        this.user = user;
+    }
 
     public Long getId() {
         return id;

@@ -3,6 +3,7 @@ package pl.coderslab.sportsbetting.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.coderslab.sportsbetting.entity.Cart;
+import pl.coderslab.sportsbetting.entity.User;
 import pl.coderslab.sportsbetting.repository.CartRepository;
 
 @Service
@@ -12,7 +13,13 @@ public class CartServiceImpl implements CartService {
     CartRepository cartRepository;
 
     @Override
-    public void saveCart(Cart cart) {
+    public void createCart(User user) {
+        Cart cart = new Cart(user);
+        cartRepository.save(cart);
+    }
+
+    @Override
+    public void updateCart(Cart cart) {
         cartRepository.save(cart);
     }
 

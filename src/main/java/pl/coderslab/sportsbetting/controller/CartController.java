@@ -9,7 +9,6 @@ import pl.coderslab.sportsbetting.entity.*;
 import pl.coderslab.sportsbetting.service.*;
 import org.springframework.ui.Model;
 
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,16 +19,16 @@ public class CartController {
     WalletService walletService;
 
     @Autowired
-    UserServiceImpl userService;
+    UserService userService;
 
     @Autowired
-    ActionServiceImpl actionService;
+    ActionService actionService;
 
     @Autowired
-    CartServiceImpl cartService;
+    CartService cartService;
 
     @Autowired
-    HorseServiceImpl horseService;
+    HorseService horseService;
 
     @GetMapping("/bet/{id}")
     String placeBet(Model model, @PathVariable Long id){
@@ -55,7 +54,7 @@ public class CartController {
         actions.add(action);
         action.setHorse(horse);
         cart.setActions(actions);
-        cartService.saveCart(cart);
+        cartService.updateCart(cart);
         return "redirect:/cart";
     }
 
@@ -95,7 +94,7 @@ public class CartController {
             walletService.updateWallet(wallet);
             actionsFromCart = new ArrayList<>();
             cart.setActions(actionsFromCart);
-            cartService.saveCart(cart);
+            cartService.updateCart(cart);
 
         }else{
             return "recharge";

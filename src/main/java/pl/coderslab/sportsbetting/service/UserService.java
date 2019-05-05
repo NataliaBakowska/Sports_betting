@@ -12,6 +12,6 @@ public interface UserService {
 
      User findUserById(Long id);
 
-     public void createUser(User user);
+     void createUser(User user) throws IllegalArgumentException;
 
 }
