@@ -10,4 +10,6 @@ public interface WalletService {
     Wallet findByUserId(Long id);
 
     void updateWallet(Wallet wallet);
+
+    Wallet rechargeWallet(Long userId, int amount);
 }

@@ -10,4 +10,6 @@ public interface CartService {
     void updateCart(Cart cart);
 
     Cart findCartByUserId(Long id);
+
+    void clearCart(Long cartId);
 }

@@ -5,18 +5,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import pl.coderslab.sportsbetting.entity.Action;
-import pl.coderslab.sportsbetting.entity.ActionType;
-import pl.coderslab.sportsbetting.entity.Wallet;
+import pl.coderslab.sportsbetting.entity.*;
 import pl.coderslab.sportsbetting.repository.ActionRepository;
+import pl.coderslab.sportsbetting.repository.HorseRepository;
 
 import java.util.List;
 
 @Service
 public class ActionServiceImpl implements ActionService {
 
-    final
-    ActionRepository actionRepository;
+    @Autowired
+    private ActionRepository actionRepository;
+
+    @Autowired
+    private HorseRepository horseRepository;
 
     @Autowired
     public JdbcTemplate jdbcTemplate;
@@ -51,6 +53,21 @@ public class ActionServiceImpl implements ActionService {
         return actionRepository.findAllByActionType(ActionType.BET);
     }
 
+    @Override
+    public List<Action> findAllByCartId(Long cartId) {
+        return null;
+    }
+
+    @Override
+    public Action createBetAction(Long horseId, Cart cart, Double amount) {
+        Action  action = new Action();
+        action.setActionType(ActionType.BET);
+        action.setCart(cart);
+        action.setHorse(horseRepository.findHorseById(horseId));
+        action.setAmount(amount);
+        return action;
+    }
+
     public void createActionRecharged(Wallet wallet, Double amount) {
         Action action = new Action();
         action.setActionType(ActionType.RECHARGE);
@@ -58,6 +75,22 @@ public class ActionServiceImpl implements ActionService {
         action.setWallet(wallet);
         action.setCreated(LocalDateTime.now());
         actionRepository.save(action);
+    }
+
+    public Double sumUpCartAndGrantDiscount(List<Action> betsInCart, Wallet wallet) {
+        Double sum = 0.0;
+        betsInCart.forEach(action -> {
+            action.setCreated(LocalDateTime.now());
+            action.setCart(null);
+            action.setWallet(wallet);
+        });
+        for (Action action : betsInCart) {
+            sum += action.getAmount();
+        }
+        if (betsInCart.size()>3){
+            sum = sum*0.85;
+        }
+        return sum;
     }
 
 

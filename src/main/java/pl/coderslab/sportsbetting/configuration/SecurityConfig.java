@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/cart").authenticated()
                 .antMatchers("/userDetails").authenticated()
                 .antMatchers("/eventDetails/**").authenticated()
-                .and().formLogin().loginPage("/user/login")
+                .and().formLogin().loginPage("/login")
                 .defaultSuccessUrl("/home")
                 .and()
                 .logout()

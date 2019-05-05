@@ -14,7 +14,6 @@ import pl.coderslab.sportsbetting.service.GameServiceImpl;
 import pl.coderslab.sportsbetting.service.HorseServiceImpl;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -34,35 +33,32 @@ public class EventController {
     @GetMapping("/upcomingEvents")
     String showUpcomingEvents(Model model){
         List<Game> games= gameService.findAllFutureGames();
-        Collections.sort(games, new GameComparator());
+        games.sort(new GameComparator());
         model.addAttribute("game", games);
         return "events";
     }
 
     @GetMapping("/eventDetails/{id}")
     String showEventDetails(@PathVariable Long id, Model model){
-        Game game = gameService.findEventById(id);
-        model.addAttribute("game",game);
-        List<Result> results = game.getResults();
-        List<Horse> horses = new ArrayList<>();
-        for (Result r : results){
-            horses.add(r.getHorse());
-        }
-        model.addAttribute("horses",horses);
+        loadEvents(id, model);
         return "eventDetails";
     }
 
     @GetMapping("/currentDetails/{id}")
     String showCurrentEventDetails(@PathVariable Long id, Model model){
+        loadEvents(id, model);
+        return "eventDetailsCurrent";
+    }
+
+    private void loadEvents(@PathVariable Long id, Model model) {
         Game game = gameService.findEventById(id);
-        model.addAttribute("game",game);
+        model.addAttribute("game", game);
         List<Result> results = game.getResults();
         List<Horse> horses = new ArrayList<>();
-        for (Result r : results){
+        for (Result r : results) {
             horses.add(r.getHorse());
         }
-        model.addAttribute("horses",horses);
-        return "eventDetailsCurrent";
+        model.addAttribute("horses", horses);
     }
 
     @GetMapping("/pastEvents")

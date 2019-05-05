@@ -19,11 +19,19 @@ public class WalletServiceImpl implements WalletService{
 
     @Override
     public Wallet findByUserId(Long id) {
-        return walletRepository.findByUser_Id(id);
+        return walletRepository.findByUserId(id);
     }
 
     @Override
     public void updateWallet(Wallet wallet) {
         walletRepository.save(wallet);
+    }
+
+    @Override
+    public Wallet rechargeWallet(Long userId, int amount) {
+        Wallet wallet = walletRepository.findByUserId(userId);
+        wallet.setStatus(wallet.getStatus() + amount);
+        walletRepository.save(wallet);
+        return wallet;
     }
 }

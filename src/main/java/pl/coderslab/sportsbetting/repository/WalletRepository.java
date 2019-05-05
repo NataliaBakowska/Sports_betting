@@ -5,6 +5,6 @@ import pl.coderslab.sportsbetting.entity.Wallet;
 
 public interface WalletRepository extends JpaRepository<Wallet, Long> {
 
-    Wallet findByUser_Id(Long id);
+    Wallet findByUserId(Long id);
 
 }
