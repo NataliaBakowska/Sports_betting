@@ -21,22 +21,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
-//    @Override
-//    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-////        auth.jdbcAuthentication()
-////                .dataSource(dataSource).passwordEncoder(passwordEncoder())
-////                .withUser("admin").password(passwordEncoder().encode("admin"))
-////                .roles("ADMIN", "USER");
-//
-////                auth.inMemoryAuthentication()
-////                .withUser("user@user.pl").password(encoder.encode("user123")).roles("ADMIN","USER");
-//
-//    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-//                .antMatchers("/v2/api-docs", "/swagger-resources/configuration/ui", "/swagger-resources", "/swagger-resources/configuration/security", "/swagger-ui.html", "/webjars/**").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/api/*").authenticated()
                 .antMatchers("/home").authenticated()
