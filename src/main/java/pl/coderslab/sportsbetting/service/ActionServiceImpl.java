@@ -3,7 +3,6 @@ package pl.coderslab.sportsbetting.service;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import pl.coderslab.sportsbetting.entity.*;
 import pl.coderslab.sportsbetting.repository.ActionRepository;
@@ -24,8 +23,10 @@ public class ActionServiceImpl implements ActionService {
     public JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public ActionServiceImpl(ActionRepository actionRepository) {
+    public ActionServiceImpl(ActionRepository actionRepository, JdbcTemplate jdbcTemplate, HorseRepository horseRepository) {
         this.actionRepository = actionRepository;
+        this.jdbcTemplate = jdbcTemplate;
+        this.horseRepository = horseRepository;
     }
 
     @Override
