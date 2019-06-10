@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import pl.coderslab.sportsbetting.entity.CurrentUser;
 import pl.coderslab.sportsbetting.entity.Role;
 import pl.coderslab.sportsbetting.entity.User;
-import pl.coderslab.sportsbetting.service.UserService;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -31,10 +30,6 @@ public class SpringDataUserDetailsService implements UserDetailsService {
         for (Role role : user.getRoles()) {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
         }
-        return new CurrentUser(user.getUsername(),user.getPassword(),
-                grantedAuthorities, user);
-
-//        return new org.springframework.security.core.userdetails.User(
-//                user.getUsername(), user.getPassword(), grantedAuthorities);
+        return new CurrentUser(user.getUsername(),user.getPassword(), grantedAuthorities, user);
     }
 }
