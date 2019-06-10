@@ -16,17 +16,19 @@ import java.util.Random;
 @Service
 public class GameServiceImpl implements GameService {
 
-    @Autowired
     GameRepository gameRepository;
 
-    @Autowired
     ResultServiceImpl resultService;
+
+    @Autowired
+    public GameServiceImpl(GameRepository gameRepository, ResultServiceImpl resultService) {
+        this.gameRepository = gameRepository;
+        this.resultService = resultService;
+    }
 
     @Override
     public Game findEventById(Long id) {
-        return gameRepository.findGameById(id);
-    }
-
+        return gameRepository.findGameById(id); }
     @Override
     public void saveGame(Game game) {
         gameRepository.save(game);
@@ -34,20 +36,15 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public List<Game> findAllFutureGames() {
-        return gameRepository.findGamesByStartingAtAfterToday();
-    }
+        return gameRepository.findGamesByStartingAtAfterToday(); }
 
     @Override
     public List<Game> findAllTodayGames() {
-        return gameRepository.findTodayGames();
-    }
+        return gameRepository.findTodayGames(); }
 
     @Override
     public List<Game> findAllPastGames() {
-        return gameRepository.findPastGames();
-    }
-
-//    @Scheduled(cron="* */2 * * * *")
+        return gameRepository.findPastGames(); }
     public List<Game> generateRandomLifeResults() {
         List<Game> games = this.findAllTodayGames();
         Random rand = new Random();
@@ -55,8 +52,7 @@ public class GameServiceImpl implements GameService {
             List<Result> results = g.getResults();
             Integer[] list = new Integer[results.size()];
             for(int i =0 ; i<list.length;i++){
-                list[i]=i+1;
-            }
+                list[i]=i+1; }
             Collections.shuffle(Arrays.asList(list));
             for(int i = 0; i<list.length;i++){
                 Horse horse = results.get(i).getHorse();

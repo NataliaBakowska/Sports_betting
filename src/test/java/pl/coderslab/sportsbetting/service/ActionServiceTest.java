@@ -6,7 +6,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.util.ReflectionTestUtils;
 import pl.coderslab.sportsbetting.entity.Action;
 import pl.coderslab.sportsbetting.entity.ActionType;
 import pl.coderslab.sportsbetting.entity.Cart;

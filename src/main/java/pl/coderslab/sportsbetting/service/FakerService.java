@@ -42,22 +42,6 @@ public class FakerService {
     @Autowired
     UserServiceImpl userService;
 
-
-
-//    @Scheduled(fixedRate = 5000)
-//    public void regenerate() throws JSONException {
-//        Faker faker = new Faker();
-//        todayGames.clear();
-//        for (int i = 0; i < 10; i++) {
-//            JSONObject oJsonInner = new JSONObject();
-//            oJsonInner.put("firstTeam", faker.team().name());
-//            oJsonInner.put("firstPoints", faker.number().randomDigitNotZero());
-//            oJsonInner.put("secondTeam", faker.team().name());
-//            oJsonInner.put("secondPoints", faker.number().randomDigitNotZero());
-//            oJsonInner.put("sport", faker.team().sport());
-//            todayGames.add(oJsonInner);
-//        }}
-
     public Game generateGame() throws JSONException {
         Faker faker = new Faker();
         Game game = new Game();
